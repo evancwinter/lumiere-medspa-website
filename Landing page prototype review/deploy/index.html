@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+section[id],footer[id]{scroll-margin-top:70px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}[data-lightdrift],[data-lightdrift2],[data-lightdrift3]{animation:none !important}}
+@keyframes lightdrift3{0%{transform:translate(0,0) scale(1)}33%{transform:translate(-45%,25%) scale(1.15)}66%{transform:translate(30%,-30%) scale(.95)}100%{transform:translate(0,0) scale(1)}}
+[data-lightdrift3]{animation:lightdrift3 9s ease-in-out infinite}
+@keyframes lightdrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(70%,35%) scale(1.25)}100%{transform:translate(0,0) scale(1)}}
+@keyframes lightdrift2{0%{transform:translate(0,0) scale(1.2)}50%{transform:translate(-60%,-40%) scale(1)}100%{transform:translate(0,0) scale(1.2)}}
+[data-lightdrift]{animation:lightdrift 6s ease-in-out infinite}
+[data-lightdrift2]{animation:lightdrift2 6s ease-in-out infinite}
+body{margin:0;overflow-x:clip;background:#F7F6F3;color:#2E4B3F;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2E4B3F}a:hover{color:#B8721E}
+:focus-visible{outline:3px solid var(--cta,#B8721E);outline-offset:2px;border-radius:4px}
+button{font-family:'Inter',sans-serif}
+input{font-family:'Inter',sans-serif}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes backdropIn{from{opacity:0}to{opacity:1}}
+@keyframes holdPulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion: reduce){[data-modal],[data-backdrop],[data-hold]{animation:none !important}}
+</style>
+</helmet>
+
+<!-- ============ PERSISTENT HEADER (z-40) ============ -->
+<header style="{{ headerStyle }}">
+  <div style="max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 24px">
+    <a href="#top" style="text-decoration:none;font-family:'Fraunces',serif;font-size:22px;font-weight:600;letter-spacing:.02em;color:#2E4B3F">Lumière</a>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Sections" style="display:flex;gap:clamp(16px,2.2vw,32px);font-size:14.5px;font-weight:500">
+        <a href="#services" style="white-space:nowrap;text-decoration:none;color:#2E4B3F">Services</a>
+        <a href="#membership" style="white-space:nowrap;text-decoration:none;color:#2E4B3F">Membership</a>
+        <a href="#dr-reyes" style="white-space:nowrap;text-decoration:none;color:#2E4B3F">Dr. Reyes</a>
+        <a href="#results" style="white-space:nowrap;text-decoration:none;color:#2E4B3F">Before / After</a>
+        <a href="#questions" style="white-space:nowrap;text-decoration:none;color:#2E4B3F">FAQ</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:12px">
+        <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}"><a href="#contact" style="white-space:nowrap;display:inline-flex;align-items:center;border:1px solid #D9D6D0;border-radius:6px;padding:10px 18px;font-size:14.5px;font-weight:500;color:#2E4B3F;text-decoration:none;background:none">(843) 555-0142</a></sc-if>
+        <button onClick="{{ openBook }}" style="white-space:nowrap;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 22px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+      </div>
+    </sc-if>
+  </div>
+</header>
+
+<main id="top">
+<!-- ============ HERO ============ -->
+<section style="background:#F7F6F3;position:relative">
+  <div aria-hidden="true" data-lightdrift style="position:absolute;top:-10%;left:-15%;width:65%;height:90%;border-radius:50%;background:radial-gradient(circle,rgba(201,168,143,.6) 0%,rgba(201,168,143,.25) 45%,rgba(201,168,143,0) 70%);filter:blur(30px);pointer-events:none"></div>
+  <div aria-hidden="true" data-lightdrift2 style="position:absolute;bottom:-15%;right:-10%;width:55%;height:80%;border-radius:50%;background:radial-gradient(circle,rgba(184,114,30,.22) 0%,rgba(201,168,143,.12) 45%,rgba(201,168,143,0) 70%);filter:blur(30px);pointer-events:none"></div>
+  <div aria-hidden="true" data-lightdrift3 style="position:absolute;top:30%;left:40%;width:45%;height:65%;border-radius:50%;background:radial-gradient(circle,rgba(217,214,208,.5) 0%,rgba(217,214,208,.2) 45%,rgba(217,214,208,0) 70%);filter:blur(30px);pointer-events:none"></div>
+  <div style="position:relative;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,72px);align-items:center;padding:clamp(48px,8vh,110px) 24px clamp(56px,9vh,120px)">
+    <div style="display:flex;flex-direction:column;gap:24px;max-width:560px">
+      <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8A867E">Medical aesthetics · Charleston, SC</p>
+      <h1 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(40px,5.2vw,68px);line-height:1.06;color:#2E4B3F;text-wrap:balance">Look rested. Feel like you.</h1>
+      <p style="margin:0;font-size:clamp(17px,1.4vw,19px);line-height:1.6;color:#4A5B52;text-wrap:pretty">Physician-led aesthetic care with honest pricing and conservative judgment.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+        <button onClick="{{ openBook }}" style="white-space:nowrap;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:18px 36px;font-size:17px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+        <a href="#" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:#4A5B52;text-decoration:none;background:#EFEDE8;border-radius:99px;padding:7px 14px">4.9 ★ · 500+ Google reviews</a>
+      </div>
+    </div>
+    <img src="uploads/26114102-1c24-4ee7-b0fe-ab4da1de1fca.png" alt="Dr. Camille Reyes seated in the Lumière studio" style="aspect-ratio:4/5;max-height:640px;width:100%;border-radius:10px;object-fit:cover;display:block"></img>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services" style="background:linear-gradient(180deg,rgba(239,237,232,0) 0%,#EFEDE8 320px);padding:clamp(56px,8vw,104px) 24px">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:48px">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:640px">
+      <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.4vw,44px);color:#2E4B3F">Services, priced upfront</h2>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#4A5B52">What you see here is what you pay — no consult-room surprises.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      <article data-reveal style="background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <img src="uploads/4e1cf0c6-825d-4a16-94f5-e7d61d7af90a.png" alt="Botox injection detail" style="aspect-ratio:16/7;width:100%;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px"></img>
+        <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:23px">Botox / Dysport</h3>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#4A5B52;flex:1">Softens fine lines while keeping your face moving like yours. Under 15 minutes.</p>
+        <p style="margin:0;font-size:15px;font-weight:600">from $12/unit</p>
+        <p style="margin:0;font-size:13px;color:#8A867E">Next available: {{ nextBotox }}</p>
+        <button onClick="{{ bookBotox }}" style="white-space:nowrap;align-self:flex-start;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 24px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book</button>
+      </article>
+      <article data-reveal style="background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <img src="uploads/574554db-c076-45ba-b264-6d69d8618962.png" alt="Dermal filler cheek assessment" style="aspect-ratio:16/7;width:100%;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px"></img>
+        <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:23px">Dermal fillers</h3>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#4A5B52;flex:1">Restores volume where time has taken it — conservative by default, built up over visits if needed.</p>
+        <p style="margin:0;font-size:15px;font-weight:600">from $650</p>
+        <p style="margin:0;font-size:13px;color:#8A867E">Next available: {{ nextFiller }}</p>
+        <button onClick="{{ bookFiller }}" style="white-space:nowrap;align-self:flex-start;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 24px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book</button>
+      </article>
+      <article data-reveal style="background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <img src="uploads/121552c9-d133-46df-baf3-e1a610c7585e.png" alt="HydraFacial tip on hydrated skin" style="aspect-ratio:16/7;width:100%;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px"></img>
+        <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:23px">HydraFacial</h3>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#4A5B52;flex:1">Deep clean, exfoliation, and hydration in one 45-minute visit. Walk out glowing, straight back to your day.</p>
+        <p style="margin:0;font-size:15px;font-weight:600">$199</p>
+        <p style="margin:0;font-size:13px;color:#8A867E">Next available: {{ nextHydra }}</p>
+        <button onClick="{{ bookHydra }}" style="white-space:nowrap;align-self:flex-start;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 24px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book</button>
+      </article>
+      <article data-reveal style="background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <img src="uploads/bc1cfd9e-4e3b-4158-8c13-d907aa34a796.png" alt="Microneedling pen on cheek" style="aspect-ratio:16/7;width:100%;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px"></img>
+        <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:23px">Microneedling with PRP</h3>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#4A5B52;flex:1">Your own plasma, put to work on texture, scarring, and tone. Topical numbing included.</p>
+        <p style="margin:0;font-size:15px;font-weight:600">$450 <span style="font-weight:400;color:#4A5B52">· 3-session series $1,215</span></p>
+        <p style="margin:0;font-size:13px;color:#8A867E">Next available: {{ nextMicro }}</p>
+        <button onClick="{{ bookMicro }}" style="white-space:nowrap;align-self:flex-start;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 24px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book</button>
+      </article>
+      <article data-reveal style="background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <img src="uploads/6ea4cd51-28f8-46b3-a0c0-e2d9abae3309.png" alt="Laser hair removal handpiece on leg" style="aspect-ratio:16/7;width:100%;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px"></img>
+        <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:23px">Laser hair removal</h3>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#4A5B52;flex:1">Medical-grade laser, safe across skin tones. Most areas take under 30 minutes per session.</p>
+        <p style="margin:0;font-size:15px;font-weight:600">from $99/session <span style="font-weight:400;color:#4A5B52">· 6-session package $499</span></p>
+        <p style="margin:0;font-size:13px;color:#8A867E">Next available: {{ nextLaser }}</p>
+        <button onClick="{{ bookLaser }}" style="white-space:nowrap;align-self:flex-start;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 24px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book</button>
+      </article>
+      <article data-reveal style="background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:12px">
+        <img src="uploads/e69a1ad7-efd8-4676-b3a6-5ec9010179a3.png" alt="IV drip in a calm treatment room" style="aspect-ratio:16/7;width:100%;border-radius:8px;object-fit:cover;display:block;margin-bottom:4px"></img>
+        <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:23px">IV hydration therapy</h3>
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#4A5B52;flex:1">Vitamins and fluids, administered by medical staff. Popular before events and after long weeks.</p>
+        <p style="margin:0;font-size:15px;font-weight:600">from $150</p>
+        <p style="margin:0;font-size:13px;color:#8A867E">Next available: {{ nextIV }}</p>
+        <button onClick="{{ bookIV }}" style="white-space:nowrap;align-self:flex-start;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:11px 24px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLAN QUIZ ============ -->
+<section id="plan" style="background:#F7F6F3;padding:clamp(56px,8vw,104px) 24px">
+  <div style="max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.4vw,44px);color:#2E4B3F">Not sure where to start?</h2>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:#4A5B52;max-width:640px">Three quick taps — no email, no commitment. Just a starting point Dr. Reyes will confirm, or talk you out of, at your free consultation.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8A867E">1 · What's bothering you most?</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <sc-for list="{{ quizConcerns }}" as="c" hint-placeholder-count="5">
+            <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ quizQ2 }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8A867E">2 · When do you want to see results?</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ quizTimelines }}" as="c" hint-placeholder-count="3">
+              <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ quizQ3 }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8A867E">3 · What feels comfortable to spend?</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ quizBudgets }}" as="c" hint-placeholder-count="3">
+              <button onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ quizDone }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#EFEDE8;border-radius:12px;padding:clamp(24px,4vw,36px);display:flex;flex-direction:column;gap:16px">
+          <p style="margin:0;font-family:'Fraunces',serif;font-size:clamp(22px,2.4vw,28px);font-weight:500;color:#2E4B3F;line-height:1.3">Dr. Reyes would likely start with {{ quizSuggestion }}.</p>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#4A5B52">{{ quizNote }}</p>
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+            <button onClick="{{ openBookConsult }}" style="white-space:nowrap;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:15px 30px;font-size:15.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+            <button onClick="{{ quizReset }}" style="background:none;border:none;padding:0;font-size:14px;font-weight:500;color:#8A867E;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Start over</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMBERSHIP (eucalyptus full-bleed #1) ============ -->
+<section id="membership" style="background:#2E4B3F;padding:clamp(64px,9vw,120px) 24px">
+  <div data-reveal style="max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:32px;color:#F7F6F3">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <p style="margin:0;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C9A88F">How regulars pay less</p>
+      <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.4vw,44px)">The Lumière Membership</h2>
+      <p style="margin:0;font-family:'Fraunces',serif;font-size:clamp(24px,2.4vw,32px);font-weight:400">$149/month <span style="font-family:'Inter',sans-serif;font-size:16px;color:rgba(247,246,243,.75)">— banks as $149 in treatment credit, rolling over up to 3 months</span></p>
+    </div>
+    <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px 32px;font-size:15.5px;line-height:1.55;color:rgba(247,246,243,.9)">
+      <li style="display:flex;gap:12px"><span aria-hidden="true" style="color:#C9A88F">—</span>10% off all services and skincare products</li>
+      <li style="display:flex;gap:12px"><span aria-hidden="true" style="color:#C9A88F">—</span>One complimentary HydraFacial or IV hydration session per quarter</li>
+      <li style="display:flex;gap:12px"><span aria-hidden="true" style="color:#C9A88F">—</span>Priority booking — members see the calendar 2 weeks before the public</li>
+      <li style="display:flex;gap:12px"><span aria-hidden="true" style="color:#C9A88F">—</span>Annual complimentary skin analysis with Dr. Reyes</li>
+      <li style="display:flex;gap:12px"><span aria-hidden="true" style="color:#C9A88F">—</span>Cancel anytime after 3 months</li>
+      <li style="display:flex;gap:12px"><span aria-hidden="true" style="color:#C9A88F">—</span>Unused credit stays valid 90 days after cancellation</li>
+    </ul>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+      <button onClick="{{ openBook }}" style="white-space:nowrap;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:16px 32px;font-size:16px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+      <p style="margin:0;font-size:13.5px;color:rgba(247,246,243,.65)">Joining happens at your first visit — no separate signup, no commitment today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEET DR. REYES ============ -->
+<section id="dr-reyes" style="background:#F7F6F3;padding:clamp(56px,8vw,104px) 24px">
+  <div style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,64px);align-items:center">
+    <img src="uploads/5ee9072e-d6fa-4066-8178-a58d9ffd560c.png" alt="Dr. Camille Reyes in the Lumière studio" style="aspect-ratio:4/5;max-height:560px;width:100%;border-radius:10px;object-fit:cover;display:block"></img>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.4vw,44px);color:#2E4B3F">Meet Dr. Camille Reyes, MD</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <span style="background:#EFEDE8;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500;color:#2E4B3F">Board-certified, aesthetic medicine</span>
+        <span style="background:#EFEDE8;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500;color:#2E4B3F">10 years of clinical practice</span>
+      </div>
+      <p style="margin:0;font-size:16.5px;line-height:1.65;color:#4A5B52;text-wrap:pretty">Dr. Reyes spent seven years in a large dermatology group before opening Lumière three years ago, a few steps off King Street. She built the studio around one idea: aesthetic medicine works best when a physician tells you the truth — including what you don't need. Every treatment plan here is hers, start to finish.</p>
+      <p style="margin:0;font-size:16.5px;line-height:1.65;color:#4A5B52;text-wrap:pretty">Her approach is conservative by default. The goal is never a new face — it's people asking whether you've been sleeping better.</p>
+      <button onClick="{{ openBookConsult }}" style="align-self:flex-start;background:none;border:none;padding:0;font-size:16px;font-weight:600;color:var(--cta,#B8721E);cursor:pointer;text-decoration:underline;text-underline-offset:4px">Book a consultation with Dr. Reyes →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF BAND ============ -->
+<section id="results" style="background:#EFEDE8;padding:clamp(56px,8vw,104px) 24px">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(48px,6vw,80px)">
+    <div style="display:flex;flex-direction:column;gap:32px">
+      <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.4vw,44px);color:#2E4B3F">Results &amp; reviews</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:24px">
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Fraunces',serif;font-size:clamp(34px,3vw,44px);font-weight:500;color:#2E4B3F">4.9</span><span style="font-size:13.5px;color:#4A5B52">Google rating</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Fraunces',serif;font-size:clamp(34px,3vw,44px);font-weight:500;color:#2E4B3F">500+</span><span style="font-size:13.5px;color:#4A5B52">five-star reviews</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Fraunces',serif;font-size:clamp(34px,3vw,44px);font-weight:500;color:#2E4B3F">3,200+</span><span style="font-size:13.5px;color:#4A5B52">treatments performed</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Fraunces',serif;font-size:clamp(34px,3vw,44px);font-weight:500;color:#2E4B3F">92%</span><span style="font-size:13.5px;color:#4A5B52">of clients rebook</span></div>
+      </div>
+      <span style="align-self:flex-start;background:#F7F6F3;border:1px solid #D9D6D0;border-radius:99px;padding:8px 16px;font-size:13px;font-weight:500;color:#4A5B52">Voted Best Med Spa — Charleston City Paper 2025</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+        <figure data-reveal style="margin:0;display:flex;flex-direction:column;gap:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <img src="uploads/fe1e447b-74f2-417e-a7be-33e1645e3f06.png" alt="Before Botox treatment" style="aspect-ratio:1;width:100%;border-radius:8px;object-fit:cover;display:block"></img>
+            <img data-wipe src="uploads/70b944aa-ab08-43a8-a607-193691843dce.png" alt="After Botox treatment, 3 weeks post" style="aspect-ratio:1;width:100%;border-radius:8px;object-fit:cover;display:block"></img>
+          </div>
+          <figcaption style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14.5px;font-weight:600;color:#2E4B3F">Botox, 24 units — 3 weeks post</span><span style="font-size:12.5px;color:#8A867E">Individual results vary.</span></figcaption>
+        </figure>
+        <figure data-reveal style="margin:0;display:flex;flex-direction:column;gap:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <img src="uploads/02f9eaa8-4113-44f8-93f2-81ebded2b84c.png" alt="Before microneedling treatment" style="aspect-ratio:1;width:100%;border-radius:8px;object-fit:cover;display:block"></img>
+            <img data-wipe src="uploads/bcc17865-d608-49c5-9fd0-3a7087a98f16.png" alt="After microneedling with PRP, 8 weeks post" style="aspect-ratio:1;width:100%;border-radius:8px;object-fit:cover;display:block"></img>
+          </div>
+          <figcaption style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14.5px;font-weight:600;color:#2E4B3F">Microneedling with PRP, series of 3 — 8 weeks post</span><span style="font-size:12.5px;color:#8A867E">Individual results vary.</span></figcaption>
+        </figure>
+        <figure data-reveal style="margin:0;display:flex;flex-direction:column;gap:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <img src="uploads/553c0480-9322-4ef4-a668-753bfa28737f.png" alt="Before laser hair removal" style="aspect-ratio:1;width:100%;border-radius:8px;object-fit:cover;display:block"></img>
+            <img data-wipe src="uploads/cc89b5b5-7f29-40da-88d9-8c8b78fc20b4.png" alt="After laser hair removal, 6 sessions" style="aspect-ratio:1;width:100%;border-radius:8px;object-fit:cover;display:block"></img>
+          </div>
+          <figcaption style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14.5px;font-weight:600;color:#2E4B3F">Laser hair removal, 6 sessions — 12 weeks post</span><span style="font-size:12.5px;color:#8A867E">Individual results vary.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div data-reveal style="border-radius:14px;overflow:hidden;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));box-shadow:0 2px 28px rgba(46,75,63,.10)">
+      <div style="background:#F7F6F3;padding:clamp(32px,4.5vw,56px)">
+        <p style="margin:0 0 6px;font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8A867E">The Lumière Standard</p>
+        <h3 style="margin:0 0 28px;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,2.4vw,30px);color:#2E4B3F">What we promise</h3>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;gap:18px;padding:18px 0;border-top:1px solid #E4E1DB">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">01</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-size:15px;font-weight:600;color:#2E4B3F">A complimentary follow-up</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4A5B52">Every injectable appointment includes a complimentary 2-week follow-up. If your results need refining, we refine them.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:18px;padding:18px 0;border-top:1px solid #E4E1DB">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">02</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-size:15px;font-weight:600;color:#2E4B3F">Consultation honesty</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4A5B52">If a treatment isn't right for you, Dr. Reyes will tell you — and won't sell it to you.</p>
+            </div>
+          </div>
+          <div style="display:flex;gap:18px;padding:18px 0 0;border-top:1px solid #E4E1DB">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">03</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <span style="font-size:15px;font-weight:600;color:#2E4B3F">No-pressure booking</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4A5B52">Consultations are free and obligation-free. Cancel or reschedule up to 24 hours ahead, no fee.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#2E4B3F;padding:clamp(32px,4.5vw,56px)">
+        <p style="margin:0 0 6px;font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#C9A88F">And just as firmly</p>
+        <h3 style="margin:0 0 28px;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,2.4vw,30px);color:#F7F6F3">What we won't do</h3>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;gap:18px;padding:15px 0;border-top:1px solid rgba(247,246,243,.15)">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">01</span>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(247,246,243,.88)"><strong style="color:#F7F6F3">Treat you on day one.</strong> New clients start with a conversation — never a same-day upsell.</p>
+          </div>
+          <div style="display:flex;gap:18px;padding:15px 0;border-top:1px solid rgba(247,246,243,.15)">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">02</span>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(247,246,243,.88)"><strong style="color:#F7F6F3">Chase trends.</strong> If a treatment lacks solid evidence, it isn't on our menu — whatever it's doing on social media.</p>
+          </div>
+          <div style="display:flex;gap:18px;padding:15px 0;border-top:1px solid rgba(247,246,243,.15)">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">03</span>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(247,246,243,.88)"><strong style="color:#F7F6F3">Overfill.</strong> We decline requests we believe won't look like you. It costs us revenue; it protects your face.</p>
+          </div>
+          <div style="display:flex;gap:18px;padding:15px 0 0;border-top:1px solid rgba(247,246,243,.15)">
+            <span aria-hidden="true" style="font-family:'Fraunces',serif;font-size:19px;color:#C9A88F;line-height:1.4;flex-shrink:0">04</span>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:rgba(247,246,243,.88)"><strong style="color:#F7F6F3">Treat everyone.</strong> Some skin, some histories, some goals aren't the right fit. We'll say so — and point you to who can help.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      <blockquote data-reveal style="margin:0;background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;font-size:15.5px;line-height:1.6;color:#2E4B3F">"I was terrified of looking frozen. Dr. Reyes talked me out of one area I didn't even need and started me conservative. Three weeks later I just look like I finally slept."</p>
+        <footer style="display:flex;align-items:center;gap:12px">
+          <img src="uploads/5497102a-7c5d-4ed2-9a5c-e6f2999604f8.png" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0"></img>
+          <span style="display:flex;flex-direction:column"><span style="font-size:14px;font-weight:600;color:#2E4B3F">Rachel T. · Botox</span><span style="font-size:12.5px;color:#8A867E">Verified Google review</span><span aria-label="5 out of 5 stars" style="font-size:13px;letter-spacing:2px;color:#D4A017">★★★★★</span></span>
+        </footer>
+      </blockquote>
+      <blockquote data-reveal style="margin:0;background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;font-size:15.5px;line-height:1.6;color:#2E4B3F">"I booked at 9pm from my couch in about 90 seconds. That alone put Lumière ahead of every med spa that made me call during business hours."</p>
+        <footer style="display:flex;align-items:center;gap:12px">
+          <img src="uploads/3c8c30e0-b0ce-43c2-8ca8-2d4412775ec7.png" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0"></img>
+          <span style="display:flex;flex-direction:column"><span style="font-size:14px;font-weight:600;color:#2E4B3F">Danielle M. · Laser hair removal</span><span style="font-size:12.5px;color:#8A867E">Verified Google review</span><span aria-label="5 out of 5 stars" style="font-size:13px;letter-spacing:2px;color:#D4A017">★★★★★</span></span>
+        </footer>
+      </blockquote>
+      <blockquote data-reveal style="margin:0;background:#F7F6F3;border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:16px">
+        <p style="margin:0;font-size:15.5px;line-height:1.6;color:#2E4B3F">"She told me I didn't need filler yet and recommended something half the price instead. I've never had a provider talk me out of spending money."</p>
+        <footer style="display:flex;align-items:center;gap:12px">
+          <img src="uploads/5a6002f0-f210-43e8-b811-a9ddc17dffd0.png" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0"></img>
+          <span style="display:flex;flex-direction:column"><span style="font-size:14px;font-weight:600;color:#2E4B3F">Priya K. · HydraFacial</span><span style="font-size:12.5px;color:#8A867E">Verified Google review</span><span aria-label="5 out of 5 stars" style="font-size:13px;letter-spacing:2px;color:#D4A017">★★★★★</span></span>
+        </footer>
+      </blockquote>
+    </div>
+    <button onClick="{{ openBook }}" style="white-space:nowrap;align-self:center;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:16px 32px;font-size:16px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="questions" style="background:#F7F6F3;padding:clamp(56px,8vw,104px) 24px">
+  <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:40px">
+    <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,3.4vw,44px);color:#2E4B3F">Questions we hear every day</h2>
+    <div style="display:flex;flex-direction:column;border-top:1px solid #D9D6D0">
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT0 }}" aria-expanded="{{ faqO0 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">Will I look frozen or fake?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI0 }}</span></button>
+        <div style="{{ faqW0 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Not here. Our philosophy is conservative by default: we'd rather have you come back for a small touch-up than walk out overdone. Dr. Reyes will tell you what you don't need as readily as what you do. The goal is that people say you look rested, not that they ask what you had done.</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT1 }}" aria-expanded="{{ faqO1 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">Does it hurt?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI1 }}</span></button>
+        <div style="{{ faqW1 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Most treatments feel like a quick pinch — injectables take under 15 minutes, and we use topical numbing for anything more involved like microneedling. The most common thing we hear afterward is 'that was it?'</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT2 }}" aria-expanded="{{ faqO2 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">How much will it actually cost me?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI2 }}</span></button>
+        <div style="{{ faqW2 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Exactly what's on this page. Botox from $12/unit, HydraFacial $199 — no consult-room surprise pricing. At your consultation you'll get a written quote before anything is scheduled, and payment plans are available through Cherry if you'd like to split it up.</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT3 }}" aria-expanded="{{ faqO3 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">Is this actually safe? Who's doing the injecting?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI3 }}</span></button>
+        <div style="{{ faqW3 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Every treatment plan at Lumière is overseen by Dr. Camille Reyes, a board-certified physician with 10 years in aesthetic medicine — this is a medical practice, not a franchise with a rotating injector. We'll review your health history before recommending anything, and we'll decline treatments that aren't right for you.</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT4 }}" aria-expanded="{{ faqO4 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">How much downtime should I plan for?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI4 }}</span></button>
+        <div style="{{ faqW4 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Most of our clients book on a lunch break and go back to work. Injectables: no downtime, just no gym for 24 hours. Microneedling: a day or two of redness, like a mild sunburn. We'll tell you exactly what to expect for your specific treatment before you book it.</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT5 }}" aria-expanded="{{ faqO5 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">What happens at a first visit?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI5 }}</span></button>
+        <div style="{{ faqW5 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">A conversation, not a pitch. You'll sit down with Dr. Reyes, talk through what's bothering you and what your goals are, and get honest recommendations — including 'nothing yet' if that's the truth. Consultations are free, and you'll never be pressured to book treatment the same day.</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT6 }}" aria-expanded="{{ faqO6 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">What if I need to cancel or reschedule?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI6 }}</span></button>
+        <div style="{{ faqW6 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Life happens. Cancel or reschedule anytime up to 24 hours before your appointment, free, right from your confirmation email. No phone call required.</p></div></div>
+      </div>
+      <div style="border-bottom:1px solid #D9D6D0">
+        <button onClick="{{ faqT7 }}" aria-expanded="{{ faqO7 }}" style="width:100%;background:none;border:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;text-align:left;font-size:17px;font-weight:600;color:#2E4B3F">Am I too young (or too old) for this?<span aria-hidden="true" style="color:#8A867E;font-weight:400">{{ faqI7 }}</span></button>
+        <div style="{{ faqW7 }}"><div style="overflow:hidden"><p style="margin:0;padding:0 0 22px;font-size:15.5px;line-height:1.65;color:#4A5B52">Our clients range from late 20s to 70s, and the right plan looks completely different across that range — prevention, maintenance, and restoration are different conversations. The consultation exists to figure out which one is yours. There's no 'right age,' only a right plan.</p></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center">
+      <p style="margin:0;font-size:15.5px;color:#4A5B52">Have a question we didn't cover? Ask it at your free consultation.</p>
+      <button onClick="{{ openBook }}" style="white-space:nowrap;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:16px 32px;font-size:16px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA (eucalyptus full-bleed #2) ============ -->
+<section style="background:#2E4B3F;padding:clamp(72px,10vw,130px) 24px clamp(56px,7vw,88px)">
+  <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center">
+    <h2 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(32px,4vw,52px);color:#F7F6F3;text-wrap:balance">Ninety seconds from now, this is handled.</h2>
+    <p style="margin:0;font-size:17px;line-height:1.6;color:rgba(247,246,243,.8)">Pick a service, pick a time, done. Free consultations, no pressure, cancel up to 24 hours ahead.</p>
+    <button onClick="{{ openBook }}" style="white-space:nowrap;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:19px 40px;font-size:17px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" style="background:#2E4B3F;padding:clamp(48px,6vw,72px) 24px 24px;border-top:1px solid rgba(247,246,243,.12)">
+  <div style="max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:48px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:40px;color:rgba(247,246,243,.8);font-size:14.5px;line-height:1.7">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:#F7F6F3">Lumière</span>
+        <p style="margin:0">Medical aesthetics by Dr. Camille Reyes, MD</p>
+        <p style="margin:0;font-style:italic">Look rested. Feel like you.</p>
+        <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:6px 0 0">Prefer to skip the phone? <button onClick="{{ openBook }}" style="background:none;border:none;padding:0;font-size:14.5px;font-weight:600;color:var(--cta,#B8721E);cursor:pointer;text-decoration:underline;text-underline-offset:3px">Book your appointment →</button></p>
+        </sc-if>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#C9A88F">Visit</span>
+        <a href="https://maps.google.com/?q=214+King+Street+Charleston+SC" style="color:rgba(247,246,243,.8);text-decoration:none">214 King Street, Suite 2<br>Charleston, SC 29401</a>
+        <p style="margin:0">Tue–Sat, 9am–6pm<br>Evening appointments available</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#C9A88F">Contact</span>
+        <a href="tel:+18435550142" style="color:rgba(247,246,243,.8);text-decoration:none">(843) 555-0142</a>
+        <a href="mailto:hello@lumierechs.com" style="color:rgba(247,246,243,.8);text-decoration:none">hello@lumierechs.com</a>
+        <a href="#" style="color:rgba(247,246,243,.8);text-decoration:none">Instagram</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(247,246,243,.15);padding-top:18px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:12.5px;color:rgba(247,246,243,.55)">
+      <span>© 2026 Lumière Aesthetics &amp; Wellness</span>
+      <a href="#" style="color:rgba(247,246,243,.55);text-decoration:none">Privacy</a>
+      <a href="#" style="color:rgba(247,246,243,.55);text-decoration:none">Terms</a>
+      <span>Medical Director: Camille Reyes, MD</span>
+      <span>Results vary by individual. All treatments administered under medical supervision.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MOBILE STICKY CTA (z-40) ============ -->
+<sc-if value="{{ showMobileBar }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(247,246,243,.95);backdrop-filter:blur(8px);border-top:1px solid #E4E1DB;padding:12px 16px calc(12px + env(safe-area-inset-bottom))">
+    <button onClick="{{ openBook }}" style="white-space:nowrap;width:100%;min-height:52px;background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:8px;font-size:16.5px;font-weight:600;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(184,114,30,.3)">Book your appointment</button>
+  </div>
+</sc-if>
+
+<!-- ============ BOOKING OVERLAY (z-50) ============ -->
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeBook }}" data-backdrop style="position:fixed;inset:0;z-index:50;background:rgba(46,75,63,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;animation:backdropIn .25s ease">
+    <div role="dialog" aria-modal="true" aria-label="Book your appointment" onClick="{{ stopProp }}" data-modal style="background:#F7F6F3;border-radius:18px;width:min(560px,100%);max-height:88vh;overflow:auto;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(28,48,40,.35),0 4px 16px rgba(28,48,40,.18);animation:modalIn .32s cubic-bezier(.22,1,.36,1)">
+      <div style="position:sticky;top:0;background:rgba(247,246,243,.97);backdrop-filter:blur(6px);z-index:1">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 28px 16px">
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:#2E4B3F">Book your appointment</span>
+            <span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8A867E">{{ stepLabel }}</span>
+          </div>
+          <button onClick="{{ closeBook }}" aria-label="Close booking" style="background:none;border:1px solid #D9D6D0;border-radius:99px;width:38px;height:38px;font-size:15px;color:#2E4B3F;cursor:pointer;flex-shrink:0;transition:border-color .2s ease" style-hover="border-color:#2E4B3F">✕</button>
+        </div>
+        <div style="height:2px;background:#E4E1DB"><div style="{{ progressStyle }}"></div></div>
+      </div>
+      <div style="padding:28px;display:flex;flex-direction:column;gap:16px">
+        <sc-if value="{{ step1 }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ modalServices }}" as="s" hint-placeholder-count="4">
+              <button onClick="{{ s.pick }}" style="{{ s.style }}" style-hover="border-color:var(--cta,#B8721E);transform:translateY(-1px);box-shadow:0 4px 14px rgba(46,75,63,.08)">
+                <span style="font-size:15.5px;font-weight:600;color:#2E4B3F">{{ s.name }}</span>
+                <span style="font-size:14px;color:#4A5B52">{{ s.price }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <p style="margin:0;font-size:14.5px;color:#4A5B52">Booking: <strong>{{ svcName }}</strong></p>
+            <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">
+              <sc-for list="{{ days }}" as="d" hint-placeholder-count="5">
+                <button onClick="{{ d.pick }}" style="{{ d.style }}">
+                  <span style="font-size:12px">{{ d.dow }}</span>
+                  <span style="font-size:17px;font-weight:600">{{ d.num }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px">
+              <sc-for list="{{ times }}" as="t" hint-placeholder-count="6">
+                <button onClick="{{ t.pick }}" style="{{ t.style }}">{{ t.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px">
+              <button onClick="{{ backTo1 }}" style="background:none;border:1px solid #D9D6D0;border-radius:6px;padding:13px 22px;font-size:15px;font-weight:500;color:#2E4B3F;cursor:pointer">Back</button>
+              <button onClick="{{ toStep3 }}" disabled="{{ noTime }}" style="{{ nextBtnStyle }}">Continue</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ step3 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #E4E1DB;border-radius:10px;padding:14px 16px">
+              <span aria-hidden="true" data-hold style="width:8px;height:8px;border-radius:50%;background:var(--cta,#B8721E);animation:holdPulse 1.6s ease-in-out infinite;flex-shrink:0"></span>
+              <p style="margin:0;font-size:14px;line-height:1.5;color:#2E4B3F">We're holding <strong>{{ slotLabel }}</strong> for you — <strong>{{ svcName }}</strong><br><span style="font-size:12.5px;color:#8A867E">Reserved for the next {{ holdLabel }}</span></p>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:600;color:#2E4B3F">Full name
+              <input value="{{ name }}" onChange="{{ onName }}" placeholder="Jane Smith" style="border:1px solid #D9D6D0;border-radius:6px;padding:13px 14px;font-size:15.5px;background:#fff;color:#2E4B3F"></input>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:600;color:#2E4B3F">Mobile phone
+              <input value="{{ phone }}" onChange="{{ onPhone }}" placeholder="(843) 555-0100" inputMode="tel" style="border:1px solid #D9D6D0;border-radius:6px;padding:13px 14px;font-size:15.5px;background:#fff;color:#2E4B3F"></input>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:600;color:#2E4B3F">Email
+              <input value="{{ email }}" onChange="{{ onEmail }}" placeholder="jane@email.com" inputMode="email" style="border:1px solid #D9D6D0;border-radius:6px;padding:13px 14px;font-size:15.5px;background:#fff;color:#2E4B3F"></input>
+            </label>
+            <p style="margin:0;font-size:12.5px;color:#8A867E">Cancel or reschedule free up to 24 hours ahead, right from your confirmation email.</p>
+            <div style="display:flex;justify-content:space-between;gap:12px">
+              <button onClick="{{ backTo2 }}" style="background:none;border:1px solid #D9D6D0;border-radius:6px;padding:13px 22px;font-size:15px;font-weight:500;color:#2E4B3F;cursor:pointer">Back</button>
+              <button onClick="{{ confirm }}" disabled="{{ formIncomplete }}" style="{{ confirmBtnStyle }}">Confirm booking</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ step4 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;padding:24px 8px 32px">
+            <span style="width:52px;height:52px;border-radius:50%;background:#2E4B3F;color:#F7F6F3;display:flex;align-items:center;justify-content:center;font-size:22px">✓</span>
+            <h3 style="margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:26px;color:#2E4B3F">You're booked.</h3>
+            <p style="margin:0;font-size:15.5px;line-height:1.6;color:#4A5B52"><strong>{{ svcName }}</strong><br>{{ slotLabel }}</p>
+            <p style="margin:0;font-size:13.5px;color:#8A867E">A confirmation is on its way to {{ email }}. See you soon.</p>
+            <button onClick="{{ closeBook }}" style="background:none;border:1px solid #D9D6D0;border-radius:6px;padding:13px 26px;font-size:15px;font-weight:500;color:#2E4B3F;cursor:pointer">Done</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ctaColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B8721E&quot;,&quot;options&quot;:[&quot;#B8721E&quot;,&quot;#9C5A17&quot;,&quot;#7E7434&quot;,&quot;#A8542B&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;},&quot;showStickyMobileBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;firstFaqOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+class Component extends DCLogic {
+  state = { isMobile: false, showBar: false, atTop: true, modalOpen: false, step: 1, svc: null, dayIdx: 0, time: null, openFaq: 0, name: '', phone: '', email: '', qConcern: null, qTimeline: null, qBudget: null, holdSecs: 0 };
+
+  componentDidMount() {
+    this.mq = window.matchMedia('(max-width: 860px)');
+    this.mqWide = window.matchMedia('(min-width: 1120px)');
+    this.onMq = () => this.setState({ isMobile: this.mq.matches, isWide: this.mqWide.matches });
+    this.mqWide.addEventListener ? this.mqWide.addEventListener('change', this.onMq) : this.mqWide.addListener(this.onMq);
+    this.mq.addEventListener ? this.mq.addEventListener('change', this.onMq) : this.mq.addListener(this.onMq);
+    this.onMq();
+    this.onScroll = () => {
+      const past = window.scrollY > window.innerHeight * 0.6;
+      const atTop = window.scrollY < 30;
+      if (past !== this.state.showBar || atTop !== this.state.atTop) this.setState({ showBar: past, atTop });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state.modalOpen) this.closeModal(); };
+    window.addEventListener('keydown', this.onKey);
+    if ((this.props.firstFaqOpen ?? true) === false) this.setState({ openFaq: -1 });
+    this.applyCta();
+    this.setupReveal();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('keydown', this.onKey);
+  }
+  componentDidUpdate() { this.applyCta(); }
+  applyCta() { document.documentElement.style.setProperty('--cta', this.props.ctaColor ?? '#B8721E'); }
+
+  setupReveal() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const els = document.querySelectorAll('[data-reveal]');
+    els.forEach(el => {
+      const sibs = el.parentElement ? Array.from(el.parentElement.children).filter(c => c.hasAttribute && c.hasAttribute('data-reveal')) : [el];
+      const idx = Math.max(0, sibs.indexOf(el));
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity .7s ease ' + (idx * 0.12) + 's, transform .7s ease ' + (idx * 0.12) + 's';
+    });
+    document.querySelectorAll('[data-wipe]').forEach(el => { el.style.clipPath = 'inset(0 100% 0 0)'; el.style.transition = 'clip-path 1.1s ease .35s'; });
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1'; e.target.style.transform = 'none';
+        e.target.querySelectorAll('[data-wipe]').forEach(w => { w.style.clipPath = 'inset(0 0 0 0)'; });
+        io.unobserve(e.target);
+      }
+    }), { threshold: 0.2 });
+    els.forEach(el => io.observe(el));
+  }
+
+  services = [
+    { key: 'consult', name: 'Free consultation with Dr. Reyes', price: 'Free · no obligation' },
+    { key: 'botox', name: 'Botox / Dysport', price: 'from $12/unit' },
+    { key: 'filler', name: 'Dermal fillers', price: 'from $650' },
+    { key: 'hydra', name: 'HydraFacial', price: '$199' },
+    { key: 'micro', name: 'Microneedling with PRP', price: '$450 · series of 3, $1,215' },
+    { key: 'laser', name: 'Laser hair removal', price: 'from $99/session · 6-pack from $499' },
+    { key: 'iv', name: 'IV hydration therapy', price: 'from $150' },
+  ];
+  timeSlots = ['9:00 am', '10:30 am', '12:00 pm', '1:30 pm', '3:00 pm', '4:30 pm', '6:00 pm'];
+
+  openModal(svcKey) {
+    this.setState({ modalOpen: true, step: svcKey ? 2 : 1, svc: svcKey || null, time: null, dayIdx: 0 });
+    document.body.style.overflow = 'hidden';
+  }
+  closeModal() {
+    clearInterval(this.holdTimer);
+    this.setState({ modalOpen: false });
+    document.body.style.overflow = '';
+  }
+  startHold() {
+    clearInterval(this.holdTimer);
+    this.setState({ holdSecs: 600 });
+    this.holdTimer = setInterval(() => {
+      const n = Math.max(0, (this.state.holdSecs || 0) - 1);
+      this.setState({ holdSecs: n });
+      if (!n) clearInterval(this.holdTimer);
+    }, 1000);
+  }
+  nextDays() {
+    const out = []; const d = new Date(); const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    let added = 0; let i = 1;
+    while (added < 6 && i < 20) {
+      const dt = new Date(d); dt.setDate(d.getDate() + i); i++;
+      if (dt.getDay() === 0 || dt.getDay() === 1) continue; // closed Sun–Mon
+      out.push({ dow: dows[dt.getDay()], num: String(dt.getDate()), month: dt.toLocaleString('en-US', { month: 'short' }) });
+      added++;
+    }
+    return out;
+  }
+
+  renderVals() {
+    const s = this.state, p = this.props;
+    const svcObj = this.services.find(x => x.key === s.svc);
+    const days = this.nextDays();
+    const day = days[s.dayIdx];
+    const slotLabel = day ? `${day.dow}, ${day.month} ${day.num}${s.time ? ' · ' + s.time : ''}` : '';
+    const pillBase = 'border-radius:8px;padding:10px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:64px;';
+    const chip = sel => 'border-radius:99px;padding:11px 18px;font-size:14.5px;font-weight:500;cursor:pointer;transition:all .2s ease;' + (sel ? 'background:#2E4B3F;color:#F7F6F3;border:1px solid #2E4B3F' : 'background:#fff;color:#2E4B3F;border:1px solid #D9D6D0');
+    const qc = s.qConcern, qt = s.qTimeline, qb = s.qBudget;
+    const sugg = { lines: 'Botox / Dysport', texture: qb === 'low' ? 'a HydraFacial' : 'Microneedling with PRP', volume: 'Dermal fillers', hair: 'Laser hair removal', refresh: 'a HydraFacial' }[qc] || '';
+    let qnote = "She'll confirm it — or talk you out of it — at your free consultation.";
+    if (qc === 'volume' && qb === 'low') qnote = 'Filler starts at $650, so she may suggest a staged plan or an alternative within your budget — exactly the conversation the free consultation is for.';
+    if (qt === 'soon' && (qc === 'lines' || qc === 'volume')) qnote = 'Injectables settle over about two weeks, so booking this week is smart. ' + qnote;
+    const vals = {
+      desktop: !s.isMobile,
+      wide: !!s.isWide,
+      headerStyle: 'position:fixed;top:0;left:0;right:0;z-index:40;transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease;' + (s.atTop ? 'background:transparent;border-bottom:1px solid transparent' : 'background:rgba(247,246,243,.92);backdrop-filter:blur(8px);border-bottom:1px solid #E4E1DB;box-shadow:0 2px 12px rgba(46,75,63,.06)'),
+      showMobileBar: s.isMobile && s.showBar && !s.modalOpen && (p.showStickyMobileBar ?? true),
+      modalOpen: s.modalOpen,
+      step1: s.step === 1, step2: s.step === 2, step3: s.step === 3, step4: s.step === 4,
+      stepLabel: s.step === 4 ? 'Confirmed' : `Step ${s.step} of 3 — ${['pick a service', 'pick a time', 'your details'][s.step - 1]}`,
+      svcName: svcObj ? svcObj.name : '',
+      nextBotox: days[0] ? days[0].dow + ', ' + days[0].month + ' ' + days[0].num + ' · 10:30 am' : '',
+      nextFiller: days[1] ? days[1].dow + ', ' + days[1].month + ' ' + days[1].num + ' · 1:30 pm' : '',
+      nextHydra: days[0] ? days[0].dow + ', ' + days[0].month + ' ' + days[0].num + ' · 3:00 pm' : '',
+      nextMicro: days[2] ? days[2].dow + ', ' + days[2].month + ' ' + days[2].num + ' · 9:00 am' : '',
+      nextLaser: days[1] ? days[1].dow + ', ' + days[1].month + ' ' + days[1].num + ' · 4:30 pm' : '',
+      nextIV: days[0] ? days[0].dow + ', ' + days[0].month + ' ' + days[0].num + ' · 12:00 pm' : '',
+      slotLabel,
+      progressStyle: 'height:2px;background:var(--cta,#B8721E);transition:width .4s ease;width:' + (s.step >= 4 ? 100 : Math.round(s.step / 3 * 100)) + '%',
+      holdLabel: Math.floor((s.holdSecs || 0) / 60) + ':' + ('0' + ((s.holdSecs || 0) % 60)).slice(-2),
+      quizConcerns: [['lines', 'Fine lines & wrinkles'], ['texture', 'Skin texture & tone'], ['volume', 'Volume loss'], ['hair', 'Unwanted hair'], ['refresh', 'An overall refresh']].map(x => ({ label: x[1], pick: () => this.setState({ qConcern: x[0] }), style: chip(qc === x[0]) })),
+      quizTimelines: [['soon', 'A specific event soon'], ['months', 'The next few months'], ['browsing', 'Just exploring']].map(x => ({ label: x[1], pick: () => this.setState({ qTimeline: x[0] }), style: chip(qt === x[0]) })),
+      quizBudgets: [['low', 'Under $250'], ['mid', '$250–$750'], ['flex', 'Flexible']].map(x => ({ label: x[1], pick: () => this.setState({ qBudget: x[0] }), style: chip(qb === x[0]) })),
+      quizQ2: !!qc, quizQ3: !!qc && !!qt, quizDone: !!qc && !!qt && !!qb,
+      quizSuggestion: sugg, quizNote: qnote,
+      quizReset: () => this.setState({ qConcern: null, qTimeline: null, qBudget: null }),
+      name: s.name, phone: s.phone, email: s.email,
+      onName: e => this.setState({ name: e.target.value }),
+      onPhone: e => this.setState({ phone: e.target.value }),
+      onEmail: e => this.setState({ email: e.target.value }),
+      openBook: () => this.openModal(null),
+      openBookConsult: () => this.openModal('consult'),
+      bookBotox: () => this.openModal('botox'),
+      bookFiller: () => this.openModal('filler'),
+      bookHydra: () => this.openModal('hydra'),
+      bookMicro: () => this.openModal('micro'),
+      bookLaser: () => this.openModal('laser'),
+      bookIV: () => this.openModal('iv'),
+      closeBook: () => this.closeModal(),
+      stopProp: e => e.stopPropagation(),
+      backTo1: () => this.setState({ step: 1, time: null }),
+      backTo2: () => this.setState({ step: 2 }),
+      toStep3: () => { if (s.time) { this.startHold(); this.setState({ step: 3 }); } },
+      confirm: () => { if (s.name && (s.phone || s.email)) { clearInterval(this.holdTimer); this.setState({ step: 4 }); } },
+      noTime: !s.time,
+      formIncomplete: !(s.name && (s.phone || s.email)),
+      nextBtnStyle: s.time
+        ? 'background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:13px 28px;font-size:15px;font-weight:600;cursor:pointer'
+        : 'background:#D9D6D0;color:#8A867E;border:none;border-radius:6px;padding:13px 28px;font-size:15px;font-weight:600;cursor:not-allowed',
+      confirmBtnStyle: (s.name && (s.phone || s.email))
+        ? 'background:var(--cta,#B8721E);color:#fff;border:none;transition:transform .2s ease,box-shadow .2s ease;border-radius:6px;padding:13px 28px;font-size:15px;font-weight:600;cursor:pointer'
+        : 'background:#D9D6D0;color:#8A867E;border:none;border-radius:6px;padding:13px 28px;font-size:15px;font-weight:600;cursor:not-allowed',
+      modalServices: this.services.map(x => ({
+        name: x.name, price: x.price,
+        pick: () => this.setState({ svc: x.key, step: 2 }),
+        style: 'display:flex;justify-content:space-between;align-items:baseline;gap:16px;text-align:left;width:100%;background:#fff;border:1px solid #E4E1DB;border-radius:10px;padding:17px 20px;cursor:pointer;transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease',
+      })),
+      days: days.map((d, i) => ({
+        dow: d.dow, num: d.num,
+        pick: () => this.setState({ dayIdx: i, time: null }),
+        style: pillBase + (i === s.dayIdx ? 'background:#2E4B3F;color:#F7F6F3;border:1px solid #2E4B3F' : 'background:#fff;color:#2E4B3F;border:1px solid #E4E1DB'),
+      })),
+      times: this.timeSlots.map(t => ({
+        label: t,
+        pick: () => this.setState({ time: t }),
+        style: 'border-radius:6px;padding:12px 8px;font-size:14px;font-weight:500;cursor:pointer;min-height:44px;' + (s.time === t ? 'background:#2E4B3F;color:#F7F6F3;border:1px solid #2E4B3F' : 'background:#fff;color:#2E4B3F;border:1px solid #E4E1DB'),
+      })),
+    };
+    for (let i = 0; i < 8; i++) {
+      vals['faqO' + i] = s.openFaq === i;
+      vals['faqI' + i] = s.openFaq === i ? '−' : '+';
+      vals['faqW' + i] = 'display:grid;grid-template-rows:' + (s.openFaq === i ? '1fr' : '0fr') + ';transition:grid-template-rows .35s ease';
+      vals['faqT' + i] = () => this.setState({ openFaq: this.state.openFaq === i ? -1 : i });
+    }
+    return vals;
+  }
+}
+</script>
+</body>
+</html>
