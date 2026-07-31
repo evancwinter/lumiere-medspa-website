@@ -1,0 +1,49 @@
+/* Lumière brand styling for the Voiceflow web chat.
+   Injected into the widget's shadow DOM via the `stylesheet` load option. */
+
+.vfrc-launcher {
+  position: relative;
+  background: #B8721E !important;
+  box-shadow: 0 6px 20px rgba(46, 75, 63, .28) !important;
+}
+
+/* Unread badge, toggled by adding .lum-unread from the page script. */
+.vfrc-launcher.lum-unread::after {
+  content: "1";
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 21px;
+  height: 21px;
+  box-sizing: border-box;
+  padding: 0 5px;
+  border-radius: 999px;
+  border: 2px solid #F7F6F3;
+  background: #D93025;
+  color: #fff;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.vfrc-header {
+  background: #2E4B3F !important;
+  color: #F7F6F3 !important;
+}
+
+.vfrc-proactive-message {
+  border-radius: 10px !important;
+  font-family: Inter, system-ui, -apple-system, sans-serif !important;
+}
+
+.vfrc-chat {
+  font-family: Inter, system-ui, -apple-system, sans-serif !important;
+}
+
+.vfrc-button {
+  background: #B8721E !important;
+  border-color: #B8721E !important;
+}

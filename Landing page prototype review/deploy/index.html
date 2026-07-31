@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumière — Medical Aesthetics in Charleston, SC</title>
+<meta name="description" content="Physician-led aesthetic care with honest pricing and conservative judgment. Botox, fillers, HydraFacial, microneedling, and laser — Charleston, SC.">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -701,6 +703,98 @@ class Component extends DCLogic {
     return vals;
   }
 }
+</script>
+
+<!-- ============ VOICEFLOW CHAT WIDGET ============ -->
+<script type="text/javascript">
+  // Nudge: a few seconds in, Elise leaves a message on the closed launcher —
+  // chime, red "1" badge, and a proactive bubble. Once per browser session.
+  function lumiereNudge() {
+    var KEY = 'lumiere-nudged';
+    try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
+
+    var chime = new Audio('https://lumiere.wintergrowthsystems.com/chime.wav');
+    chime.volume = 0.35;
+
+    function playChime() {
+      var p = chime.play();
+      if (!p || !p.catch) return;
+      p.catch(function () {
+        // Browsers block sound until the visitor interacts. Fire on their first move instead.
+        var events = ['pointerdown', 'keydown', 'scroll'];
+        var fire = function () {
+          chime.play().catch(function () {});
+          events.forEach(function (ev) { window.removeEventListener(ev, fire); });
+        };
+        events.forEach(function (ev) { window.addEventListener(ev, fire, { passive: true }); });
+      });
+    }
+
+    function launcher() {
+      var host = document.getElementById('voiceflow-chat');
+      return host && host.shadowRoot ? host.shadowRoot.querySelector('.vfrc-launcher') : null;
+    }
+
+    // The launcher label is normally set in the Voiceflow dashboard. Re-apply it here
+    // too, and keep re-applying briefly since the widget re-renders on state changes.
+    var LAUNCHER_LABEL = 'Reply to Elise';
+    function keepLabel() {
+      var passes = 0;
+      var t = setInterval(function () {
+        var el = launcher();
+        var lbl = el && el.querySelector('.vfrc-launcher__label');
+        if (lbl && lbl.textContent !== LAUNCHER_LABEL) lbl.textContent = LAUNCHER_LABEL;
+        if (++passes > 30) clearInterval(t);
+      }, 1000);
+    }
+
+    setTimeout(function () {
+      try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+
+      var chat = window.voiceflow && window.voiceflow.chat;
+      if (chat && chat.proactive) {
+        chat.proactive.clear();
+        chat.proactive.push({
+          type: 'text',
+          payload: { message: "Question about treatments or pricing? Happy to help." }
+        });
+      }
+
+      playChime();
+
+      var tries = 0;
+      var mark = setInterval(function () {
+        var el = launcher();
+        if (el) {
+          clearInterval(mark);
+          el.classList.add('lum-unread');
+          el.addEventListener('click', function () {
+            el.classList.remove('lum-unread');
+            if (chat && chat.proactive) chat.proactive.clear();
+          }, { once: true });
+          keepLabel();
+        } else if (++tries > 40) {
+          clearInterval(mark);
+        }
+      }, 250);
+    }, 4000);
+  }
+
+  (function(d, t) {
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '6a6ca35d0e67e8f338790c3b' },
+          url: 'https://general-runtime.voiceflow.com',
+          voice: {
+            url: "https://runtime-api.voiceflow.com"
+          },
+          stylesheet: 'https://lumiere.wintergrowthsystems.com/widget.css'
+        });
+        lumiereNudge();
+      }
+      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+  })(document, 'script');
 </script>
 </body>
 </html>
