@@ -31,6 +31,13 @@
   position: relative;
   background: #B8721E !important;
   box-shadow: 0 6px 20px rgba(46, 75, 63, .28) !important;
+  /* Voiceflow sets overflow:hidden here, alongside border-radius:9999px. The
+     unread badge below is an ::after at top:-3px/right:-3px, so it was being
+     clipped twice — once by the box edge and again by the pill's rounded
+     corner, leaving about half the circle visible. Releasing the clip lets the
+     badge sit proud at the corner, which is what reads as a notification. The
+     launcher is auto-width and its contents fit, so nothing else escapes. */
+  overflow: visible !important;
 }
 
 /* Unread badge, toggled by adding .lum-unread from the page script. */
