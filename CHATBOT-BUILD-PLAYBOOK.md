@@ -216,11 +216,46 @@ Getting it wrong returns `Version does not exist` or `Environment not found`.
 
 **Compile after every change.** Tests run against the last compiled version. Skipping this makes you think a fix didn't work.
 
-**Appearance is dashboard-only.** The embed snippet accepts **no** `assistant` block. Name, avatar, colors, description, placeholder, launcher label are all set in the **Widget** tab. Passing them in code does nothing.
+**Appearance is dashboard-only — with one exception.** Name, avatar, colors, description, placeholder and launcher label are set in the **Widget** tab; passing them in code does nothing. The exception is `stylesheet`, which *does* work in code but **only nested under an `assistant` block** (see below). Earlier versions of this playbook said the snippet accepts no `assistant` block at all. That was wrong, and it cost a silently dead stylesheet on the Lumière build.
 
 **Never hand-write the embed snippet.** Get it from the Widget tab. A hand-written `versionID: 'production'` will make every request fail with `Cannot resolve version alias`, and the widget silently never appears.
 
-**`stylesheet` IS supported in code.** It injects a CSS file into the widget's shadow DOM, so you can brand the launcher, header and buttons. Class names: `.vfrc-launcher`, `.vfrc-launcher__label`, `.vfrc-header`, `.vfrc-chat`, `.vfrc-button`, `.vfrc-proactive-message`.
+**`stylesheet` IS supported in code — but it MUST be nested under `assistant`.** It injects a CSS file into the widget's shadow DOM, so you can brand the launcher, header and buttons.
+
+```js
+window.voiceflow.chat.load({
+  verify: { projectID: '...' },
+  url: 'https://general-runtime.voiceflow.com',
+  assistant: {                                        // <-- required wrapper
+    stylesheet: window.location.origin + '/widget.css'
+  }
+});
+```
+
+**At the top level it fails silently — and this is nasty.** No console error, no `<link>` in the DOM, no missing-file warning. The widget just keeps the dashboard's colors, which are usually close enough to the brand that the page looks correct. On the Lumière build the stylesheet was dead from day one and nobody caught it for weeks; the giveaway was that the red unread badge never appeared, and even that read as a widget quirk rather than a broken file.
+
+**Verify it loaded, don't eyeball it.** In the console:
+
+```js
+const sr = document.getElementById('voiceflow-chat').shadowRoot;
+[...sr.querySelectorAll('link[rel=stylesheet]')].some(l => l.href.includes('widget.css'));  // must be true
+getComputedStyle(sr.querySelector('.vfrc-launcher')).backgroundColor;                        // must be YOUR hex
+```
+
+Use `window.location.origin` rather than a hardcoded domain, so preview deployments load their own copy instead of production's.
+
+Class names: `.vfrc-launcher`, `.vfrc-launcher__container`, `.vfrc-launcher__label`, `.vfrc-header`, `.vfrc-chat`, `.vfrc-button`, `.vfrc-proactive`, `.vfrc-proactive-message`.
+
+**Mobile: the launcher collides with a sticky CTA bar.** Any design with a bottom-fixed mobile CTA shares that corner with the launcher. Measure the bar, then shift the launcher's *container* (not `.vfrc-launcher`, which is `position:relative` for the badge) and the proactive bubble by the same amount so their spacing survives:
+
+```css
+@media (max-width: 860px) {
+  .vfrc-launcher__container { bottom: calc(93px + env(safe-area-inset-bottom)) !important; }
+  .vfrc-proactive           { bottom: calc(113px + env(safe-area-inset-bottom)) !important; }
+}
+```
+
+Defaults are `bottom:20px` for the launcher container and `40px` for the bubble; both sit inside `.vfrc-widget` (fixed, full height). Include `env(safe-area-inset-bottom)` or it will look right in a desktop emulator and wrong on a real iPhone.
 
 **Cheap models degrade the conversation that matters.** `voiceflow-flash-4.1` cut cost 65% and was 5× faster, but truncated the nervous-first-timer flow and drifted into promising results. Keep the quality model on any playbook doing persuasion.
 

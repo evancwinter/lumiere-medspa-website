@@ -1,6 +1,32 @@
 /* Lumière brand styling for the Voiceflow web chat.
    Injected into the widget's shadow DOM via the `stylesheet` load option. */
 
+/* --- Mobile: lift the launcher clear of the sticky CTA bar ---------------
+   Below the design's 860px breakpoint the page shows a full-width booking
+   bar fixed to the bottom (z-index 40). It measures 77px plus the phone's
+   safe-area inset: 1px border + 12px padding + 52px button + 12px padding.
+   The launcher shares that corner and sits on top of the button, so push it
+   to 77 + 16 = 93px plus the inset, leaving a 16px gap. Desktop has no bar
+   and is left alone.
+
+   Measured in the live widget: .vfrc-launcher__container is position:absolute
+   at bottom:20px, and .vfrc-proactive is position:absolute at bottom:40px,
+   both inside .vfrc-widget (fixed, full height). Each moves up by the same
+   73px so the bubble keeps its spacing above the launcher.
+
+   Deliberately NOT applied to .vfrc-launcher itself — that element is set to
+   position:relative below to anchor the unread badge, so a `bottom` there
+   would stack on top of the container's offset. The open chat window is a
+   separate element and is left alone. */
+@media (max-width: 860px) {
+  .vfrc-launcher__container {
+    bottom: calc(93px + env(safe-area-inset-bottom)) !important;
+  }
+  .vfrc-proactive {
+    bottom: calc(113px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
 .vfrc-launcher {
   position: relative;
   background: #B8721E !important;
