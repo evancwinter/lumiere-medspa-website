@@ -48,13 +48,30 @@ Email Address Obfuscation runs on the zone, not on `pages.dev`. It rewrites the
 `mailto:hello@lumierechs.com` link into a `/cdn-cgi/l/email-protection` link and
 injects a small decoder script. Harmless and expected.
 
-### A real cache trap for future swaps
+### Caching — why it's set the way it is
 
-`_headers` caches `/support.js` for **24 hours**, but `/` for zero seconds. If a
-future export ships a genuinely changed runtime, visitors get the new
-`index.html` against a day-old `support.js` — the exact matched-pair breakage
-this file warns about, on a delay, for one day only. If `support.js` ever really
-changes, shorten that `max-age` in `_headers` for the deploy.
+Every file whose **name stays the same while its contents change** is set to
+`max-age=0, must-revalidate` in `_headers`: `index.html`, `support.js`,
+`widget.css`, `elise.svg`, `margot.svg`, `chime.wav`. A deploy therefore takes
+effect immediately for everyone, and you never debug a change that already
+shipped.
+
+This costs almost nothing. `max-age=0, must-revalidate` does not mean "download
+every time" — the browser asks whether the file changed and Cloudflare answers
+`304 Not Modified`, a few hundred bytes with no transfer.
+
+`uploads/*` is the exception and keeps `max-age=31536000, immutable`. That's
+where the real weight is (~37 MB of photos) and it's safe because Claude Design
+gives every image a unique generated filename, so a changed photo is always a new
+URL. Don't extend `immutable` to anything with a stable filename.
+
+Fixed 2026-08-11. Before that, `/support.js` sat at 24 hours while `/` was zero,
+and `widget.css` plus the two avatars weren't listed at all so they inherited a
+silent 4-hour Cloudflare default — the failure mode being a widget tweak that
+looks like it didn't deploy, redeployed twice, still "broken", for four hours.
+Content-hashed filenames were considered and rejected: they'd be optimal, but
+they add a rename step to every export swap, and correctness that depends on
+remembering a step is worse than a round trip nobody notices.
 
 ## Re-exporting the design — read this first
 

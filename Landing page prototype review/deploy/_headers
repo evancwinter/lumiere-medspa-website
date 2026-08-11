@@ -1,8 +1,23 @@
 /uploads/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Fixed filenames that change in place. They must revalidate, or a deploy
+# ships a new index.html against a cached older copy of these. Revalidation
+# costs a 304, not a download.
 /support.js
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate
+
+/widget.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/elise.svg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/margot.svg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/chime.wav
+  Cache-Control: public, max-age=0, must-revalidate
 
 /
   Cache-Control: public, max-age=0, must-revalidate
