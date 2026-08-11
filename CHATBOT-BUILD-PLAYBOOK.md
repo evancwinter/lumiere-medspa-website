@@ -246,6 +246,23 @@ Use `window.location.origin` rather than a hardcoded domain, so preview deployme
 
 Class names: `.vfrc-launcher`, `.vfrc-launcher__container`, `.vfrc-launcher__label`, `.vfrc-header`, `.vfrc-chat`, `.vfrc-button`, `.vfrc-proactive`, `.vfrc-proactive-message`.
 
+**The unread badge gets clipped unless you release the launcher's overflow.**
+Voiceflow sets `overflow: hidden` on `.vfrc-launcher` alongside
+`border-radius: 9999px`. A badge drawn as an `::after` at negative offsets is
+then clipped twice — by the box edge and again by the pill's rounded corner —
+leaving roughly half the circle showing. It looks like a badly positioned badge
+rather than a clipping problem, so it invites fiddling with `top`/`right` that
+can't ever fix it.
+
+```css
+.vfrc-launcher { overflow: visible !important; }   /* let the badge sit proud */
+```
+
+The launcher is auto-width and its contents fit, so nothing else escapes. The
+alternative — moving the badge inside the pill — works but reads as decoration
+rather than a notification. Note `.vfrc-launcher__container` one level up is
+already `overflow: visible`, so that's the other place a badge can live.
+
 **Mobile: the launcher collides with a sticky CTA bar.** Any design with a bottom-fixed mobile CTA shares that corner with the launcher. Measure the bar, then shift the launcher's *container* (not `.vfrc-launcher`, which is `position:relative` for the badge) and the proactive bubble by the same amount so their spacing survives:
 
 ```css
