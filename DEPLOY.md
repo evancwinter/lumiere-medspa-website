@@ -11,7 +11,11 @@ It lives at **https://lumiere.wintergrowthsystems.com**.
 | Project name | `lumiere-medspa` |
 | Cloudflare account | `evancwinter@gmail.com` (id `e612b8cbcb220229f071ba6662b8e582`) |
 | Deploy source | `Landing page prototype review/deploy/` |
-| DNS | CNAME at Namecheap: `lumiere` → `lumiere-medspa.pages.dev` |
+| DNS | CNAME at Namecheap: `lumiere` → `lumiere-medspa-2o6.pages.dev` |
+
+Note the `-2o6` suffix on the pages.dev hostname — it is **not** `lumiere-medspa.pages.dev`.
+Cloudflare appended it because the plain name was taken. The *project* is
+`lumiere-medspa`; only the hostname carries the suffix.
 
 There is **no auto-deploy**. Pushing to GitHub does not publish anything.
 The site only changes when someone runs the command below from this machine.
@@ -31,6 +35,26 @@ debugging a problem that isn't there.
 
 Don't append `?cachebuster=` to static assets — Pages can respond with
 `index.html` instead of the asset and the result is confusing.
+
+### Two things that look like bugs and aren't
+
+**`support.js` byte size differs between the repo and the served file.** Git stores
+LF line endings and checks out CRLF on Windows, so the same file measures ~1,911
+bytes larger on disk (one byte per line). Compare with
+`diff <(tr -d '\r' < a) <(tr -d '\r' < b)` before concluding anything changed.
+
+**`index.html` differs between `pages.dev` and the custom domain.** Cloudflare's
+Email Address Obfuscation runs on the zone, not on `pages.dev`. It rewrites the
+`mailto:hello@lumierechs.com` link into a `/cdn-cgi/l/email-protection` link and
+injects a small decoder script. Harmless and expected.
+
+### A real cache trap for future swaps
+
+`_headers` caches `/support.js` for **24 hours**, but `/` for zero seconds. If a
+future export ships a genuinely changed runtime, visitors get the new
+`index.html` against a day-old `support.js` — the exact matched-pair breakage
+this file warns about, on a delay, for one day only. If `support.js` ever really
+changes, shorten that `max-age` in `_headers` for the deploy.
 
 ## Re-exporting the design — read this first
 
@@ -68,7 +92,11 @@ every single time.
 - Page loads on the `pages.dev` hash URL, then on the custom domain.
 - `/elise.svg`, `/margot.svg`, `/widget.css`, `/chime.wav` all return 200.
 - The launcher appears bottom-right and nothing in the layout covers it —
-  **check a phone viewport**, not just desktop.
+  **check a phone viewport**, not just desktop. The design has a **mobile sticky
+  CTA bar** (`showMobileBar`, full-width, `position:fixed;bottom:0;z-index:40`,
+  roughly 80px tall) that appears below 860px once you scroll. It shares the
+  bottom-right corner with the launcher. Any future design change that alters
+  that bar's height is a launcher-collision risk.
 - **The 4-second nudge fires**: chime, red "1" badge on the launcher, proactive
   bubble ("Question about treatments or pricing?"), launcher reading "Reply to
   Elise". It runs **once per browser session** — use a fresh incognito window to
