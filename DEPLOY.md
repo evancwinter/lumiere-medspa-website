@@ -65,6 +65,21 @@ where the real weight is (~37 MB of photos) and it's safe because Claude Design
 gives every image a unique generated filename, so a changed photo is always a new
 URL. Don't extend `immutable` to anything with a stable filename.
 
+**Shortening a cache header does not un-cache what's already out there.** A browser
+that fetched `widget.css` while it still said `max-age=14400` keeps that copy for
+its full four hours; the new header only governs fetches made after the change.
+This bit during the 2026-08-11 verification: production was serving the correct
+file, but a browser that had visited earlier kept loading the old one, which
+looked like a failed deploy. Confirm against a `pages.dev` deployment URL you
+haven't visited before, or hard-refresh (Ctrl+Shift+R). Check what the widget
+actually parsed, not what the server sends:
+
+```js
+const sr = document.getElementById('voiceflow-chat').shadowRoot;
+const s = [...sr.styleSheets].find(x => (x.href||'').includes('widget.css'));
+s.cssRules.length;   // stale copy had 6 rules, current has 7
+```
+
 Fixed 2026-08-11. Before that, `/support.js` sat at 24 hours while `/` was zero,
 and `widget.css` plus the two avatars weren't listed at all so they inherited a
 silent 4-hour Cloudflare default — the failure mode being a widget tweak that
