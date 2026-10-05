@@ -45,14 +45,14 @@ bytes larger on disk (one byte per line). Compare with
 
 **`index.html` differs between `pages.dev` and the custom domain.** Cloudflare's
 Email Address Obfuscation runs on the zone, not on `pages.dev`. It rewrites the
-`mailto:hello@lumierechs.com` link into a `/cdn-cgi/l/email-protection` link and
+`mailto:hello@lumiere.example` link into a `/cdn-cgi/l/email-protection` link and
 injects a small decoder script. Harmless and expected.
 
 ### Caching — why it's set the way it is
 
 Every file whose **name stays the same while its contents change** is set to
 `max-age=0, must-revalidate` in `_headers`: `index.html`, `support.js`,
-`widget.css`, `elise.svg`, `margot.svg`, `chime.wav`. A deploy therefore takes
+`widget.css`, `elise.svg`, `margot.svg`, `chime.wav`, `robots.txt`. A deploy therefore takes
 effect immediately for everyone, and you never debug a change that already
 shipped.
 
@@ -61,7 +61,7 @@ every time" — the browser asks whether the file changed and Cloudflare answers
 `304 Not Modified`, a few hundred bytes with no transfer.
 
 `uploads/*` is the exception and keeps `max-age=31536000, immutable`. That's
-where the real weight is (~37 MB of photos) and it's safe because Claude Design
+where the photos live (17 WebP files, ~0.45 MB) and it's safe because Claude Design
 gives every image a unique generated filename, so a changed photo is always a new
 URL. Don't extend `immutable` to anything with a stable filename.
 
@@ -95,7 +95,7 @@ The page is a Claude Design export (`index.html` + `support.js` + `uploads/`).
 **matched pair** — always replace `index.html` and `support.js` together.
 
 A fresh export **does not contain the chatbot**, which is the entire point of the
-demo. Seven things are hand-made and must survive any re-export:
+demo. These things are hand-made and must survive any re-export:
 
 1. **The Voiceflow block** — ~90 lines at the bottom of `index.html`, just before
    `</body>`. Contains the widget embed (project `6a6ca35d0e67e8f338790c3b`) and
@@ -113,16 +113,39 @@ demo. Seven things are hand-made and must survive any re-export:
 6. **`<title>`** — Claude Design does not emit one. Without it the browser tab
    shows a bare URL, which looks unfinished in a demo.
 7. **`<meta name="description">`** — same; needed for link previews.
+8. **`robots.txt`** — `Allow: /`, so crawlers can fetch the page and read the
+   noindex. Without the file, Pages' SPA fallback answers `/robots.txt` with
+   `index.html`.
+9. **`<html lang="en">`** and **`<meta name="robots" content="noindex">`** in the
+   static `<head>`. Lumière is fictional and stays out of search results; the
+   `X-Robots-Tag` in `_headers` covers it too, but keep both.
+10. **The identity rulings** — a fictional practice may describe itself, but may
+    not make a claim about a real third party that someone can check. So: city
+    only, no street address (also in the booking modal and the calendar invite's
+    `LOCATION`); phones 555-01xx; "client reviews", never a named platform; no
+    awards from real publications; no named financing provider; email on the
+    reserved `lumiere.example` domain; physician named Dr. Vivienne Ashby (no
+    NPI or web match), with section anchor `#dr-ashby`. Check a fresh export for
+    every one of these.
+11. **"Illustrative images · demonstration site"** under the before/after pairs,
+    and the footer credit linking to wintergrowthsystems.com.
+12. **WebP images.** Claude Design exports PNGs (~2 MB each). Convert each to WebP
+    q80 at 2× the widest box it renders in, never upscaled, point the `src` at
+    the `.webp`, and put the PNG in `Landing page prototype review/originals/`,
+    outside the deploy folder. Delete any upload nothing references: everything
+    in `uploads/` is public.
 
-Items 2–5 live as separate files in the deploy folder, so they survive as long as
-you replace only `index.html`, `support.js`, and `uploads/` and leave the rest
-alone. Items 1, 6, and 7 live *inside* `index.html` and must be re-pasted by hand
-every single time.
+Items 2–5 and 8 live as separate files in the deploy folder, so they survive as
+long as you replace only `index.html`, `support.js`, and `uploads/` and leave the
+rest alone. Everything else lives *inside* `index.html` (or `uploads/`) and must
+be redone by hand every single time.
 
 ## After deploying, verify
 
 - Page loads on the `pages.dev` hash URL, then on the custom domain.
 - `/elise.svg`, `/margot.svg`, `/widget.css`, `/chime.wav` all return 200.
+- `curl -sI` on `/` shows `X-Robots-Tag: noindex`, and `/robots.txt` comes back
+  as `text/plain`, not HTML.
 - The launcher appears bottom-right and nothing in the layout covers it —
   **check a phone viewport**, not just desktop. The design has a **mobile sticky
   CTA bar** (`showMobileBar`, full-width, `position:fixed;bottom:0;z-index:40`,
