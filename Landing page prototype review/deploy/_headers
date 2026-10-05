@@ -19,9 +19,24 @@
 /chime.wav
   Cache-Control: public, max-age=0, must-revalidate
 
+/robots.txt
+  Cache-Control: public, max-age=0, must-revalidate
+
 /
   Cache-Control: public, max-age=0, must-revalidate
 
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Robots-Tag: noindex
+
+# X-Robots-Tag sits in the bare `/*` block on purpose, which is the opposite of
+# what a real client site would do. Lumière is a fictional practice on a demo
+# subdomain, so every host must be noindex: the custom domain, the pages.dev
+# mirror and every hash-preview deploy. Host-scoping it would under-apply.
+#
+# `nofollow` is deliberately absent: the footer credit links to
+# wintergrowthsystems.com and should not be marked nofollow.
+#
+# robots.txt stays `Allow: /`. A Disallow would stop crawlers fetching the page
+# and therefore stop them ever reading the noindex.
