@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumière | Medical aesthetics in Charleston, SC</title>
+<meta name="description" content="An example of what a med spa front page should be: what the practice does, where it is, and how to book, on the first screen. Lumière is a fictional practice.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#F7F6F3; --ink:#2E4B3F; --cta:#B8721E; --line:#E3DFD6; --soft:#5C7367; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a { color:var(--ink); }
+  a:hover { color:var(--cta); }
+  .wrap { max-width:860px; margin:0 auto; padding:0 20px; }
+  header { padding:28px 0 8px; display:flex; justify-content:space-between; align-items:baseline; gap:16px; }
+  .brand { font-family:'Fraunces',serif; font-size:1.4rem; text-decoration:none; }
+  .book { display:inline-block; background:var(--cta); color:#fff; text-decoration:none; padding:12px 20px; border-radius:999px; font-weight:600; white-space:nowrap; }
+  .book:hover { color:#fff; background:#9c6017; }
+  .hero { padding:48px 0 40px; }
+  .kicker { text-transform:uppercase; letter-spacing:.08em; font-size:.8rem; color:var(--soft); margin:0 0 12px; }
+  h1 { font-family:'Fraunces',serif; font-weight:500; font-size:clamp(2.1rem,6vw,3.2rem); line-height:1.1; margin:0 0 14px; }
+  .lede { font-size:1.15rem; color:var(--soft); margin:0 0 24px; max-width:560px; }
+  .hero .book { font-size:1.05rem; padding:14px 26px; }
+  .hero small { display:block; margin-top:12px; color:var(--soft); }
+  section { padding:36px 0; border-top:1px solid var(--line); }
+  h2 { font-family:'Fraunces',serif; font-weight:500; font-size:1.6rem; margin:0 0 18px; line-height:1.25; }
+  .services { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .svc { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .svc h3 { margin:0 0 6px; font-size:1.05rem; }
+  .svc p { margin:0; color:var(--soft); font-size:.95rem; }
+  p { margin:0 0 14px; }
+  .doc { display:grid; grid-template-columns:1fr; gap:12px; }
+  .q h3 { margin:0 0 6px; font-size:1.05rem; }
+  .q { margin-bottom:18px; }
+  .cta { text-align:center; padding:48px 0 56px; border-top:1px solid var(--line); }
+  .cta h2 { margin-bottom:8px; }
+  .cta p { color:var(--soft); margin-bottom:20px; }
+  footer { border-top:1px solid var(--line); padding:28px 0 48px; font-size:.9rem; color:var(--soft); }
+  footer p { margin:0 0 8px; }
+  .note { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#top">Lumière</a>
+    <a class="book" href="https://lumiere.wintergrowthsystems.com/#book">Book online</a>
+  </header>
+
+  <div class="hero" id="top">
+    <p class="kicker">Medical aesthetics · Charleston, SC</p>
+    <h1>Look rested. Feel like you.</h1>
+    <p class="lede">Physician-led aesthetic care with honest pricing and conservative judgment. One doctor owns your plan from the first conversation to the follow-up.</p>
+    <a class="book" href="https://lumiere.wintergrowthsystems.com/#book">Book your appointment</a>
+    <small>Pick a service and a time online. Consultations are free. Cancel up to a day ahead at no charge.</small>
+  </div>
+
+  <section id="services">
+    <h2>What we do</h2>
+    <div class="services">
+      <div class="svc"><h3>Botox and Dysport</h3><p>Softens fine lines while keeping your face moving like yours. Under fifteen minutes.</p></div>
+      <div class="svc"><h3>Dermal fillers</h3><p>Restores volume where time has taken it. Conservative by default, built up over visits if needed.</p></div>
+      <div class="svc"><h3>HydraFacial</h3><p>Deep clean, exfoliation and hydration in one visit. Straight back to your day.</p></div>
+      <div class="svc"><h3>Microneedling with PRP</h3><p>Your own plasma, put to work on texture, scarring and tone. Numbing included.</p></div>
+      <div class="svc"><h3>Laser hair removal</h3><p>Medical-grade laser, safe across skin tones. Most areas take under half an hour per session.</p></div>
+      <div class="svc"><h3>IV hydration</h3><p>Vitamins and fluids, administered by medical staff.</p></div>
+    </div>
+    <p style="margin-top:16px"><a href="https://lumiere.wintergrowthsystems.com/#services">Every price is listed on the services page before you book.</a></p>
+  </section>
+
+  <section id="doctor">
+    <h2>Who does the work</h2>
+    <div class="doc">
+      <p>Dr. Vivienne Ashby, MD, is board-certified in aesthetic medicine. She assesses your skin, chooses the treatment and does the work herself. There is no rotating injector.</p>
+      <p>If a treatment is not right for you, she will say so and steer you to the one that will actually work.</p>
+    </div>
+  </section>
+
+  <section id="questions">
+    <h2>Before you book</h2>
+    <div class="q"><h3>What happens at a first visit?</h3><p>A conversation, not a pitch. New clients are never treated on day one, and consultations are free.</p></div>
+    <div class="q"><h3>Does it hurt?</h3><p>Most treatments feel like a quick pinch. Numbing is included for anything more involved.</p></div>
+    <div class="q"><h3>What if I need to cancel?</h3><p>Cancel or reschedule free up to a day ahead, right from your confirmation email. No phone call required.</p></div>
+    <p><a href="https://lumiere.wintergrowthsystems.com/#faq">More questions, answered</a></p>
+  </section>
+
+  <div class="cta">
+    <h2>Book in under two minutes</h2>
+    <p>Pick a service, pick a time, done.</p>
+    <a class="book" href="https://lumiere.wintergrowthsystems.com/#book">Book your appointment</a>
+  </div>
+
+  <footer>
+    <p class="note">This is an example page from <a href="https://wintergrowthsystems.com/">Winter Growth Systems</a>. Lumière is a fictional practice, built to show what the front page of a med spa site should carry: what you do, where you are, and how to book, on the first screen. It describes the page, not any result.</p>
+    <p>Medical aesthetics in Charleston, SC · Medical Director: Vivienne Ashby, MD</p>
+  </footer>
+</div>
+</body>
+</html>

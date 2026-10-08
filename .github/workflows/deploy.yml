@@ -1,0 +1,48 @@
+name: Deploy
+
+# Publishes the deploy folder to Cloudflare Pages on demand. There is still no
+# auto-deploy on push (DEPLOY.md): this runs only when dispatched, by a person
+# or by the marketing team's Pipeline role (`gh workflow run deploy.yml`), so the
+# laptop stops being the only machine that can publish the example pages.
+#
+# Secrets: CLOUDFLARE_API_TOKEN (scoped to Pages edit on this one project) and
+# CLOUDFLARE_ACCOUNT_ID. Both are repository secrets on this public repo; the
+# token is the only addition the team design asked for.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: wrangler pages deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "CLOUDFLARE_API_TOKEN is not set"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "CLOUDFLARE_ACCOUNT_ID is not set"; exit 1; }
+          npx --yes wrangler@4 pages deploy "Landing page prototype review/deploy" --project-name=lumiere-medspa --branch=main --commit-dirty=true
+      - name: Verify the example pages answer on the custom domain
+        run: |
+          sleep 60
+          for u in https://lumiere.wintergrowthsystems.com/examples/answers/ https://lumiere.wintergrowthsystems.com/examples/front-page/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$u")
+            hdr=$(curl -sI "$u" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
+            echo "$u -> $code  $hdr"
+            [ "$code" = "200" ] || exit 1
+            echo "$hdr" | grep -qi noindex || exit 1
+          done

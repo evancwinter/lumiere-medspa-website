@@ -1,5 +1,5 @@
 /uploads/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600
 
 # Fixed filenames that change in place. They must revalidate, or a deploy
 # ships a new index.html against a cached older copy of these. Revalidation
@@ -20,6 +20,12 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /robots.txt
+  Cache-Control: public, max-age=0, must-revalidate
+
+# The example pages (wgs-marketing-team build plan §4.1): fixed URLs whose
+# contents change in place, so they revalidate like index.html. noindex comes
+# from the bare /* block below, and from the meta tag in each page.
+/examples/*
   Cache-Control: public, max-age=0, must-revalidate
 
 /

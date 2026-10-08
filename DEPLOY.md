@@ -60,10 +60,13 @@ This costs almost nothing. `max-age=0, must-revalidate` does not mean "download
 every time" — the browser asks whether the file changed and Cloudflare answers
 `304 Not Modified`, a few hundred bytes with no transfer.
 
-`uploads/*` is the exception and keeps `max-age=31536000, immutable`. That's
-where the photos live (17 WebP files, ~0.45 MB) and it's safe because Claude Design
-gives every image a unique generated filename, so a changed photo is always a new
-URL. Don't extend `immutable` to anything with a stable filename.
+`uploads/*` is the exception and gets `max-age=3600`. That's where the photos
+live (17 WebP files, ~0.45 MB), and Claude Design gives every image a unique
+generated filename, so a changed photo is always a new URL. It used to be
+`max-age=31536000, immutable`, which was dropped on 2026-10-06: when the PNGs were
+removed from the deploy, the edge kept serving them for over a day, through a
+Purge Everything, because a year-long immutable copy got re-cached from upstream.
+An hour is plenty for a demo and lets a removed file actually go away.
 
 **Shortening a cache header does not un-cache what's already out there.** A browser
 that fetched `widget.css` while it still said `max-age=14400` keeps that copy for
@@ -167,3 +170,18 @@ git checkout <commit> -- "Landing page prototype review/deploy"
 npx wrangler pages deploy "Landing page prototype review/deploy" \
   --project-name=lumiere-medspa --branch=main
 ```
+
+## The example pages (`/examples/`)
+
+`examples/answers/` and `examples/front-page/` are the two static example pages the
+marketing team's cold email promises ("a short example of a med spa page that
+answers patient questions"; design in `../wgs-marketing-team-build-plan.md` §4.1).
+Plain HTML, no JS, no phone, no address, no prices, no figures, `noindex` via the
+meta tag and the `/*` header. They are deployed with everything else in the folder;
+`_headers` makes them revalidate like `index.html`.
+
+`.github/workflows/deploy.yml` (added 2026-10-08) runs the same `wrangler pages
+deploy` on demand from GitHub Actions, so the team's Pipeline role can publish a
+change without the laptop: `gh workflow run deploy.yml -R evancwinter/lumiere-medspa-website`.
+It needs the repository secrets `CLOUDFLARE_API_TOKEN` (Pages edit on this project
+only) and `CLOUDFLARE_ACCOUNT_ID`. Still no auto-deploy on push.
